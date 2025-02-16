@@ -21,7 +21,15 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return false
 });
 
+let iai_cookie;
+
 before(() => {
     cy.visit('/');
-    cy.consentToNecessaryCookiesOnly();
+    cy.consentToNecessaryCookiesOnly().then((cookie) => {
+        iai_cookie = cookie;
+    });
+});
+
+beforeEach(() => {
+    cy.setCookie('iai_cookie', iai_cookie.value);
 });
