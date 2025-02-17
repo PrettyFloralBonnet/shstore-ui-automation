@@ -37,4 +37,8 @@ export default class ShoppingCart {
         });
         return this.items;
     }
+
+    getOrderTotal(): Cypress.Chainable<JQuery<HTMLElement>> {
+        return cy.get('div.basketedit_total_summary').find('strong');
+    }
 }

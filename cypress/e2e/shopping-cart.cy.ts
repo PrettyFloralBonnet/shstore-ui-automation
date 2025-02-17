@@ -74,45 +74,38 @@ describe('Shopping cart', () => {
         });
     });
 
-    it('should display order total', () => {
+    it('should display the correct order total', () => {
         let firstProductPrice: string, secondProductPrice: string;
 
-        cy.visit('/');
+        navbar.getSection('Deskorolka').click();
+        catalog.getProducts().first().click();
 
-        // navigate to category: Boards
-        cy.get('a.nav-link').contains('Deskorolka').click();
+        const firstProductPage = new BoardProductPage();
 
-        // click on the first product in the category
-        cy.get('div.product').first().click();
-
-        // make note of first product price
-        cy.get('#projector_price_value').should('be.visible').invoke('text').then((price) => {
+        firstProductPage.getProductPrice().should('be.visible').invoke('text').then((price) => {
             cy.wrap(price).as('first-added-product-price');
         });
 
-        // select first available size
-        cy.get('#projector_sizes_cont').find('a.projector_sizes__item').first().click();
+        firstProductPage.getAvailableSizes().first().click();
 
-        // add the product to cart
-        cy.get('#projector_button_basket').click();
+        firstProductPage.getAddToCartButton().click();
 
-        // navigate to category: Accessories
-        cy.get('a.nav-link').contains('Akcesoria').click({force: true});
+        // click is forced because after the cart is visited, for some
+        // reason Cypress sees the navbar element as having display: none
+        navbar.getSection('Akcesoria').click({force: true});
 
-        // click on the first product in the category
-        cy.get('div.product').first().click();
+        catalog.getProducts().first().click();
 
-        // make note of second product price
-        cy.get('#projector_price_value').should('be.visible').invoke('text').then((price) => {
+        const secondProductPage = new ProductPage();
+
+        secondProductPage.getProductPrice().should('be.visible').invoke('text').then((price) => {
             cy.wrap(price).as('second-added-product-price');
         });
 
-        // add the product to cart
-        cy.get('#projector_button_basket').click();
+        secondProductPage.getAddToCartButton().click();
 
         cy.url().should('contain', 'basketedit.php');
 
-        // verify if the total matches the sum of the two prices
         cy.get<string>('@first-added-product-price').then((price) => {
             firstProductPrice = price;
         });
@@ -121,13 +114,9 @@ describe('Shopping cart', () => {
             secondProductPrice = price;
         });
 
-        cy.get('div.basketedit_total_summary')
-            .should('be.visible')
-            .find('strong')
-            .invoke('text')
-            .then((total) => {
-                const sum: number = parseFloat(firstProductPrice) + parseFloat(secondProductPrice);
-                expect(sum).to.eq(parseFloat(total));
-            });
+        shoppingCart.getOrderTotal().should('be.visible').invoke('text').then((total) => {
+            const sum: number = parseFloat(firstProductPrice) + parseFloat(secondProductPrice);
+            expect(sum).to.eq(parseFloat(total));
+        });
     });
 });
