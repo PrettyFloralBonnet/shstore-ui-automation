@@ -21,6 +21,9 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return false
 });
 
+
+// iai_cookie remembers the settings selected in the cookie consent modal
+// it must be set so that the modal is not displayed
 let iai_cookie;
 
 before(() => {
