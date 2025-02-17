@@ -4,8 +4,8 @@
   "description": "Example UI test automation for shstore.eu",
   "main": "index.js",
   "scripts": {
-    "test": "cypress open",
-    "test:headless": "cypress run"
+    "e2e": "cypress open",
+    "e2e:headless": "cypress run"
   },
   "repository": {
     "type": "git",
