@@ -15,23 +15,30 @@ export default class ShoppingCart {
         return cy.get('div.basket__productslist');
     }
 
-    getItemsInCart(): ShoppingCartItem[] {
-        this.getProductListElement().within(() => {
-            cy.get('div.basket__block').filter('[data-product-id]').each((item) => {
-                let itemName: string, itemPrice: string;
-                cy.wrap(item).within(() => {
-                    cy.get('a.product__link').invoke('text').then((name) => {
-                        itemName = name;
-                    });
+    getItemRowElements(): Cypress.Chainable<JQuery<HTMLElement>> {
+        return cy.get('div.basket__block').filter('[data-product-id]');
+    }
 
-                    cy.get('span.basket__price').invoke('text').then((price) => {
-                        itemPrice = price;
-                    });
+    private async fetchCartItems(): Promise<void> {
+        this.getItemRowElements().each((row) => {
+            let itemName: string, itemPrice: string;
+
+            cy.wrap(row).within(() => {
+                cy.get('a.product__link').invoke('text').then((name) => {
+                    itemName = name;
                 });
+
+                cy.get('span.basket__price').invoke('text').then((price) => {
+                    itemPrice = price;
+                });
+            }).then(() => {
                 this.items.push(new ShoppingCartItem(itemName, itemPrice));
             });
         });
+    }
 
+    async getItemsInCart(): Promise<ShoppingCartItem[]> {
+        await this.fetchCartItems();
         return this.items;
     }
 }
