@@ -19,7 +19,7 @@ export default class ShoppingCart {
         return cy.get('div.basket__block').filter('[data-product-id]');
     }
 
-    private async fetchCartItems(): Promise<void> {
+    async getItemsInCart(): Promise<ShoppingCartItem[]> {
         this.getItemRowElements().each((row) => {
             let itemName: string, itemPrice: string;
 
@@ -35,10 +35,6 @@ export default class ShoppingCart {
                 this.items.push(new ShoppingCartItem(itemName, itemPrice));
             });
         });
-    }
-
-    async getItemsInCart(): Promise<ShoppingCartItem[]> {
-        await this.fetchCartItems();
         return this.items;
     }
 }
