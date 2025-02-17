@@ -79,4 +79,61 @@ describe('Shopping cart', () => {
             });
         });
     });
+
+    it('should display order total', () => {
+        let firstProductPrice: string, secondProductPrice: string;
+
+        cy.visit('/');
+
+        // navigate to category: Boards
+        cy.get('a.nav-link').contains('Deskorolka').click();
+
+        // click on the first product in the category
+        cy.get('div.product').first().click();
+
+        // make note of first product price
+        cy.get('#projector_price_value').should('be.visible').invoke('text').then((price) => {
+            cy.wrap(price).as('first-added-product-price');
+        });
+
+        // select first available size
+        cy.get('#projector_sizes_cont').find('a.projector_sizes__item').first().click();
+
+        // add the product to cart
+        cy.get('#projector_button_basket').click();
+
+        // navigate to category: Accessories
+        cy.get('a.nav-link').contains('Akcesoria').click({force: true});
+
+        // click on the first product in the category
+        cy.get('div.product').first().click();
+
+        // make note of second product price
+        cy.get('#projector_price_value').should('be.visible').invoke('text').then((price) => {
+            cy.wrap(price).as('second-added-product-price');
+        });
+
+        // add the product to cart
+        cy.get('#projector_button_basket').click();
+
+        cy.url().should('contain', 'basketedit.php');
+
+        // verify if the total matches the sum of the two prices
+        cy.get<string>('@first-added-product-price').then((price) => {
+            firstProductPrice = price;
+        });
+
+        cy.get<string>('@second-added-product-price').then((price) => {
+            secondProductPrice = price;
+        });
+
+        cy.get('div.basketedit_total_summary')
+            .should('be.visible')
+            .find('strong')
+            .invoke('text')
+            .then((total) => {
+                const sum: number = parseFloat(firstProductPrice) + parseFloat(secondProductPrice);
+                expect(sum).to.eq(parseFloat(total));
+            });
+    });
 });
