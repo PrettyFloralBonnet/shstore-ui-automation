@@ -41,4 +41,8 @@ export default class ShoppingCart {
     getOrderTotal(): Cypress.Chainable<JQuery<HTMLElement>> {
         return cy.get('div.basketedit_total_summary').find('strong');
     }
+
+    getContinueButton(): Cypress.Chainable<JQuery<HTMLElement>> {
+        return cy.get('#basket_go_next');
+    }
 }

@@ -3,7 +3,7 @@ import MainPage from "../support/models/main-page";
 import Navbar from "../support/models/navbar";
 import BoardProductPage from "../support/models/product-pages/board-product-page";
 import ProductPage from "../support/models/product-pages/product-page";
-import ShoppingCart from "../support/models/shopping-cart";
+import ShoppingCart from "../support/models/order-flow/shopping-cart";
 
 describe('Shopping cart', () => {
     const mainPage = new MainPage();
