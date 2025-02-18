@@ -28,7 +28,7 @@ npm run e2e:headless
 
 ### Branches
 
-Branch [`NOID/place-order-as-guest-test`](https://github.com/PrettyFloralBonnet/shstore-ui-automation/tree/NOID/place-order-as-guest-test) contains a test scenario that's 99% finished, but I didn't manage to run it (as of Feb 18th) due to issues with IP blocking (too many requests to the store's forms).
+Branch [`NOID/place-order-as-guest-test`](https://github.com/PrettyFloralBonnet/shstore-ui-automation/tree/NOID/place-order-as-guest-test) contains a test scenario that's 99% finished, but I didn't manage to run it (as of Feb 18th, 2025) due to issues with IP blocking (too many requests to the store's forms).
 
 Branch [`NOID/cucumber-preprocessor`](https://github.com/PrettyFloralBonnet/shstore-ui-automation/tree/NOID/cucumber-preprocessor) is behind both `master` and `NOID/place-order-as-guest-test`, but contains the necessary config for the [Cypress Cucumber Preprocessor](https://github.com/badeball/cypress-cucumber-preprocessor/tree/master).
 
