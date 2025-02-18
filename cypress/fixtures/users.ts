@@ -22,6 +22,6 @@ export const TEST_USER: User = {
         city: 'Warsaw',
     },
     phoneNumber: '+48 001 010 100',
-    email: 'shstoretest1@gmail.com',
+    email: 'shstoretest2@gmail.com',
     password: '',  // substitute to run tests locally
 }
